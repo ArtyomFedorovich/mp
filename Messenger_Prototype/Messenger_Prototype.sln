@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger_Prototype", "Messenger_Prototype.csproj", "{3ECEB800-DDBB-4DBC-8FB0-9CEB112A9A93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBackend", "C:\Users\Fedor\Documents\Visual Studio 2017\Projects\ChatGUI\ChatBackend\ChatBackend.csproj", "{28763632-231A-4ED5-94DE-CAAFE6A53C69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatGUI", "C:\Users\Fedor\Documents\Visual Studio 2017\Projects\ChatGUI\ChatGUI.csproj", "{9138677D-5515-4D2B-A5F3-B519E37B5C4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3ECEB800-DDBB-4DBC-8FB0-9CEB112A9A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ECEB800-DDBB-4DBC-8FB0-9CEB112A9A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ECEB800-DDBB-4DBC-8FB0-9CEB112A9A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28763632-231A-4ED5-94DE-CAAFE6A53C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28763632-231A-4ED5-94DE-CAAFE6A53C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28763632-231A-4ED5-94DE-CAAFE6A53C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28763632-231A-4ED5-94DE-CAAFE6A53C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9138677D-5515-4D2B-A5F3-B519E37B5C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9138677D-5515-4D2B-A5F3-B519E37B5C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9138677D-5515-4D2B-A5F3-B519E37B5C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9138677D-5515-4D2B-A5F3-B519E37B5C4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
