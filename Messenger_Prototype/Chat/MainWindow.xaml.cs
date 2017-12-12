@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace Chat
 {
@@ -20,15 +21,11 @@ namespace Chat
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static MainWindow current;
-        PacketListener listener = new PacketListener();
-        PacketSender sender = new PacketSender();
-        List<User> users = App.ActiveUsers;
-
+        PacketSender packetSender;
         public MainWindow()
         {
             InitializeComponent();
-            current = this;
+            packetSender = new PacketSender();
             //DataContext = new GeneralViewModel();           
         }
         /*public void DisplayMessage(CompositeType composite)
@@ -42,7 +39,7 @@ namespace Chat
         {
             if (e.Key == Key.Return || e.Key == Key.Enter)
             {
-                this.sender.Send(textBoxEntryField.Text);
+                packetSender.Send(textBoxEntryField.Text);
                 //((PacketSender)sender).Send((textBoxEntryField.Text));
                 textBoxEntryField.Clear();
             }
