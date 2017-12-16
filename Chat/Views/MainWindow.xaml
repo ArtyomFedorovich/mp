@@ -21,7 +21,8 @@
       Height="Auto"
       Margin="6,6,6,6"
       HorizontalAlignment="Stretch"
-      VerticalAlignment="Stretch" />
+      VerticalAlignment="Stretch"
+      Text="{Binding TextBoxChatPaneContent, Mode=OneWay}" />
     <TextBox
       Name="textBoxEntryField"
       Grid.Row="1"
@@ -30,6 +31,7 @@
       Margin="6,6,6,6"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
-      KeyDown="TextBoxEntryField_KeyDown" />
+      KeyDown="TextBoxEntryField_KeyDown"
+      Text="{Binding TextBoxEntryFieldContent, Mode=OneWay}" />
   </Grid>
 </Window>

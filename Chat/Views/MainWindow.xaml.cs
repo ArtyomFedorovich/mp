@@ -24,24 +24,23 @@ namespace Chat
   /// </summary>
   public partial class MainWindow : Window
   {
+    //UdpPacketListener packetListener = new UdpPacketListener();
     public MainWindow()
     {
-      Thread thread = new Thread(new UdpPacketListener().UdpListen);
-      thread.IsBackground = true;
+      this.DataContext = new MainWindowViewModel(Dispatcher.CurrentDispatcher);   
       InitializeComponent();
-      thread.Start();
     }
-
+    /*
     public delegate void UpdateContent(string message);
     private void UpdateTextBoxChatPane(string message)
     {
       textBoxChatPane.Text += message;
     }
-    private void UpdateView(string message)
+    private void UpdateView(object sender, UdpPacketListener.MessageEventArgs messageArg)
     {
-      var op = textBoxChatPane.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-        new UpdateContent(UpdateTextBoxChatPane), message);
-    }
+      var updateTextBoxChatPaneResult = textBoxChatPane.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+        new UpdateContent(UpdateTextBoxChatPane), messageArg.TargetMessage);
+    }*/
 
     #region FormEvents
 
@@ -49,7 +48,7 @@ namespace Chat
     /// 
     /// </summary>
     /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="e"></param> 
     private void TextBoxEntryField_KeyDown(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Return || e.Key == Key.Enter)

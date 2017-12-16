@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat
@@ -13,6 +14,15 @@ namespace Chat
   /// </summary>
   public class UdpPacketListener
   {
+    public class MessageEventArgs : EventArgs
+    {
+      public string TargetMessage { get; protected set; }
+      public MessageEventArgs(string message)
+      {
+        TargetMessage = message;
+      }
+    }
+    public event EventHandler<MessageEventArgs> NewUserMessage;
     public void UdpListen()
     {
       UdpClient listener = new UdpClient();
@@ -27,7 +37,7 @@ namespace Chat
           string message = Encoding.Unicode.GetString(pdata);
           if (!string.IsNullOrEmpty(message))
           {
-            UpdateView(message);
+            NewUserMessage(this, new MessageEventArgs(message));
           }
           Thread.Sleep(TimeSpan.FromSeconds(2));
         }
