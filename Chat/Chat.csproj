@@ -62,7 +62,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModelNetwork\UdpPacketListener.cs" />
+    <Compile Include="Model\ModelNetwork\UdpPacketListener.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
