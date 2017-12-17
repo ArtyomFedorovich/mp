@@ -26,7 +26,7 @@ namespace Chat
     public void UdpListen()
     {
       UdpClient listener = new UdpClient();
-      IPEndPoint socket = new IPEndPoint(IPAddress.Any, 48911);
+      IPEndPoint socket = new IPEndPoint(IPAddress.Any, App.ServiceSocketValue);
       listener.Client.Bind(socket);
 
       while (true)

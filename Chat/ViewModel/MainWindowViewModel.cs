@@ -13,6 +13,7 @@ namespace Chat
   {
     private string textBoxPaneChatPaneContent = string.Empty;
     private UdpPacketListener packetListener = new UdpPacketListener();
+    private UdpPacketSender packetSender = new UdpPacketSender();
     /// <summary>
     /// 
     /// </summary>
@@ -59,6 +60,11 @@ namespace Chat
     {
       mainWindowDispatcher.BeginInvoke(DispatcherPriority.Normal, new UpdateContent(UpdateTextBoxChatPane),
         messageArg.TargetMessage);
+    }
+
+    public void SendUdpMessageToAllUsers(string message)
+    {
+      packetSender.SendToAllUsers(message);
     }
   }
 }

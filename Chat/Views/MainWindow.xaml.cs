@@ -24,10 +24,12 @@ namespace Chat
   /// </summary>
   public partial class MainWindow : Window
   {
+    private MainWindowViewModel viewModel;
     //UdpPacketListener packetListener = new UdpPacketListener();
     public MainWindow()
     {
-      this.DataContext = new MainWindowViewModel(Dispatcher.CurrentDispatcher);   
+      viewModel = new MainWindowViewModel(Dispatcher.CurrentDispatcher);
+      this.DataContext = viewModel;
       InitializeComponent();
     }
     /*
@@ -53,20 +55,8 @@ namespace Chat
     {
       if (e.Key == Key.Return || e.Key == Key.Enter)
       {
-        UdpClient senderich = null;
-        try
-        {
-          senderich = new UdpClient();
-          IPEndPoint receiver = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 48911);
-          byte[] bytes = Encoding.Unicode.GetBytes(textBoxEntryField.Text);
-          senderich.Send(bytes, bytes.Length, receiver);
-        }
-        finally
-        {
-          senderich.Close();
-        }
+        viewModel.SendUdpMessageToAllUsers(textBoxEntryField.Text);
         textBoxEntryField.Clear();
-        //Thread.Sleep(TimeSpan.FromSeconds(5));
       }
     }
     #endregion

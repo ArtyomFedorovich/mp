@@ -13,5 +13,13 @@ namespace Chat
   /// </summary>
   public partial class App : Application
   {
+    public const int ServiceSocketValue = 48911;
+    public static Users ServiceUsers { get; private set; } = new Users();
+    public const string LocalUsersName = "Me";
+
+    public App()
+    {
+
+    }
   }
 }
