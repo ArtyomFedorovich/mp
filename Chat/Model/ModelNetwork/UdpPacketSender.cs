@@ -6,25 +6,29 @@ namespace Chat
 {
   public class UdpPacketSender
   {
+    private UdpClient senderClient;
     private UdpPacketFormatter packetFormatter = new UdpPacketFormatter();
 
-    public void SendToAllUsers(string content)
+    public void SendMessageToAllUsers(string content)
     {
-      UdpClient senderClient = null;
-      try
-      {
-        senderClient = new UdpClient();
-        IPEndPoint receiver = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 48911);
-        
+      lock(senderClient = new UdpClient())
+      {        
         byte[] bytes = packetFormatter.CreateMessagePacket(content, App.ServiceUsers.LocalUser);
         foreach (var user in App.ServiceUsers.ConnectedUsers)
         {
           senderClient.Send(bytes, bytes.Length, user.UserSocket);
         }       
       }
-      finally
+    }
+    public void SendLocalUserInfoToAllUsers()
+    {
+      lock (senderClient = new UdpClient())
       {
-        senderClient.Close();
+        byte[] bytes = packetFormatter.CreateLocalUserInfoPacket();
+        foreach (var user in App.ServiceUsers.ConnectedUsers)
+        {
+          senderClient.Send(bytes, bytes.Length, user.UserSocket);
+        }
       }
     }
   }

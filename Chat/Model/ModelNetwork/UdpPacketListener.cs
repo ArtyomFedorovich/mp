@@ -14,6 +14,9 @@ namespace Chat
   /// </summary>
   public class UdpPacketListener
   {
+    private UdpClient listenerClient;
+    private UdpPacketFormatter packetFormatter = new UdpPacketFormatter();
+
     public class MessageEventArgs : EventArgs
     {
       public string TargetMessage { get; protected set; }
@@ -25,27 +28,33 @@ namespace Chat
     public event EventHandler<MessageEventArgs> NewUserMessage;
     public void UdpListen()
     {
-      UdpClient listener = new UdpClient();
       IPEndPoint socket = new IPEndPoint(IPAddress.Any, App.ServiceSocketValue);
-      listener.Client.Bind(socket);
+      listenerClient.Client.Bind(socket);
 
       while (true)
       {
-        try
+        lock (listenerClient = new UdpClient())
         {
-          byte[] pdata = listener.Receive(ref socket);
-          string message = Encoding.Unicode.GetString(pdata);
-          if (!string.IsNullOrEmpty(message))
+          byte[] pdata = listenerClient.Receive(ref socket);
+
+          var packetType = packetFormatter.GetPacketTypeFromPacket(pdata);
+          if (packetType == UdpPacketFormatter.PacketType.Echo)
           {
-            NewUserMessage(this, new MessageEventArgs(message));
+            App.ServiceUsers.ConnectedUsers.Add(packetFormatter.GetUserInfoFromEchoPacket(pdata));
           }
+          else
+          {
+            string message = Encoding.Unicode.GetString(pdata);
+            if (!string.IsNullOrEmpty(message))
+            {
+              NewUserMessage(this, new MessageEventArgs(message));
+            }
+          }
+          
           Thread.Sleep(TimeSpan.FromSeconds(2));
         }
-        finally
-        {
-          //listener.Close();
-        }
       }
+
     }
   }
 }

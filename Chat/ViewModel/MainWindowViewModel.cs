@@ -64,7 +64,7 @@ namespace Chat
 
     public void SendUdpMessageToAllUsers(string message)
     {
-      packetSender.SendToAllUsers(message);
+      packetSender.SendMessageToAllUsers(message);
     }
   }
 }
