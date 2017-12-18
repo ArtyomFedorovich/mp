@@ -19,7 +19,7 @@ namespace Chat
     /// </summary>
     /// <param name="message"></param>
     private Dispatcher mainWindowDispatcher;
-    public delegate void UpdateContent(string message);
+    public delegate void UpdateContent(string message, string receiverLogin);
 
     public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
@@ -52,14 +52,14 @@ namespace Chat
     /// 
     /// </summary>
     /// <param name="message"></param>
-    private void UpdateTextBoxChatPane(string message)
+    private void UpdateTextBoxChatPane(string message, string receiverLogin)
     {
-      TextBoxChatPaneContent += ("\n" + message);
+      TextBoxChatPaneContent += (receiverLogin + "> " + message + "\n");
     }
     private void UpdateView(object sender, UdpPacketListener.MessageEventArgs messageArg)
     {
       mainWindowDispatcher.BeginInvoke(DispatcherPriority.Normal, new UpdateContent(UpdateTextBoxChatPane),
-        messageArg.TargetMessage);
+        messageArg.TargetMessage, messageArg.ReceiverLogin);
     }
 
     public void SendUdpMessageToAllUsers(string message)

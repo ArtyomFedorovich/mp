@@ -12,9 +12,22 @@ namespace Chat
       Echo
     }
 
+    public User GetMessageReceiverFromMessagePacket(byte[] packet)
+    {
+      var receiverIp = new byte[4] { packet[2], packet[3], packet[4], packet[5] };
+      var receiverPort = new byte[4] { packet[6], packet[7], packet[8], packet[9] };
+      User receiver = App.GetUserLoginBySocket(new System.Net.IPEndPoint(BitConverter.ToInt32(receiverIp, 0),
+        BitConverter.ToInt32(receiverPort, 0)));
+      return receiver;
+    }
     public string GetMessageContentFromMessagePacket(byte[] packet)
     {
-
+      var userMessage = new byte[packet.Length - 10];
+      for (int i = 0; i < userMessage.Length; i++)
+      {
+        userMessage[i] = packet[10 + i];
+      }
+      return Encoding.Unicode.GetString(userMessage);
     }
 
     public User GetUserInfoFromEchoPacket(byte[] packet)
@@ -26,7 +39,7 @@ namespace Chat
       {
         userLogin[i] = packet[10 + i];
       }
-      return new User(new System.Net.IPEndPoint(BitConverter.ToInt64(userIp, 0), BitConverter.ToInt32(userPort, 0)),
+      return new User(new System.Net.IPEndPoint(BitConverter.ToInt32(userIp, 0), BitConverter.ToInt32(userPort, 0)),
         Encoding.Unicode.GetString(userLogin), string.Empty);
     }
     public PacketType GetPacketTypeFromPacket(byte[] packet)

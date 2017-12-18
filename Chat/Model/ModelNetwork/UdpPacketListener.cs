@@ -19,21 +19,24 @@ namespace Chat
 
     public class MessageEventArgs : EventArgs
     {
-      public string TargetMessage { get; protected set; }
-      public MessageEventArgs(string message)
+      public string TargetMessage { get; private set; }
+      public string ReceiverLogin { get; private set; }
+      public MessageEventArgs(string message, string receiverLogin)
       {
         TargetMessage = message;
+        ReceiverLogin = receiverLogin;
       }
     }
     public event EventHandler<MessageEventArgs> NewUserMessage;
     public void UdpListen()
     {
+      listenerClient = new UdpClient();
       IPEndPoint socket = new IPEndPoint(IPAddress.Any, App.ServiceSocketValue);
       listenerClient.Client.Bind(socket);
 
       while (true)
       {
-        lock (listenerClient = new UdpClient())
+        lock (listenerClient)
         {
           byte[] pdata = listenerClient.Receive(ref socket);
 
@@ -44,10 +47,11 @@ namespace Chat
           }
           else
           {
-            string message = Encoding.Unicode.GetString(pdata);
+            string message = packetFormatter.GetMessageContentFromMessagePacket(pdata);
+            string receiver = packetFormatter.GetMessageReceiverFromMessagePacket(pdata).Login;
             if (!string.IsNullOrEmpty(message))
             {
-              NewUserMessage(this, new MessageEventArgs(message));
+              NewUserMessage(this, new MessageEventArgs(message, receiver));
             }
           }
           
