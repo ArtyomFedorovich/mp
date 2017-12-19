@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -31,7 +32,7 @@ namespace Chat
     public void UdpListen()
     {
       listenerClient = new UdpClient();
-      IPEndPoint socket = new IPEndPoint(IPAddress.Any, App.ServiceSocketValue);
+      IPEndPoint socket = new IPEndPoint(IPAddress.Any, App.ServicePortValue);
       listenerClient.Client.Bind(socket);
 
       while (true)
@@ -40,10 +41,13 @@ namespace Chat
         {
           byte[] pdata = listenerClient.Receive(ref socket);
 
+          Debug.WriteLine(socket.Address.ToString());
+          Debug.WriteLine(BitConverter.ToString(pdata));
+
           var packetType = packetFormatter.GetPacketTypeFromPacket(pdata);
           if (packetType == UdpPacketFormatter.PacketType.Echo)
           {
-            App.ServiceUsers.ConnectedUsers.Add(packetFormatter.GetUserInfoFromEchoPacket(pdata));
+            App.ServiceUsers.AddConnectedUser(packetFormatter.GetUserInfoFromEchoPacket(pdata));
           }
           else
           {
@@ -55,7 +59,7 @@ namespace Chat
             }
           }
           
-          Thread.Sleep(TimeSpan.FromSeconds(2));
+          Thread.Sleep(20);
         }
       }
 

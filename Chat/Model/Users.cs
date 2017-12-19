@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 
 namespace Chat
 {
   public class Users
   {
-    public User LocalUser = new User(new IPEndPoint(IPAddress.Parse("127.0.0.1"), App.ServiceSocketValue), 
+    public User LocalUser = new User(new IPEndPoint(IPAddress.Parse("10.128.30.28"), App.ServicePortValue), 
       App.LocalUserName, string.Empty);
     public List<User> ConnectedUsers { get; private set; }
 
@@ -16,7 +17,10 @@ namespace Chat
 
     public void AddConnectedUser(User user)
     {
-      ConnectedUsers.Add(user);
+      if (ConnectedUsers.FirstOrDefault(u => user.Login == u.Login) == null)
+      {
+        ConnectedUsers.Add(user);
+      }
     }
   }
 }

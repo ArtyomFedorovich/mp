@@ -62,9 +62,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\ModelNetwork\UdpPacketFormatter.cs" />
-    <Compile Include="Model\ModelNetwork\UdpPacketListener.cs" />
-    <Compile Include="Model\ModelNetwork\UdpPacketSender.cs" />
+    <Compile Include="Model\ModelNetwork\Udp\UdpPacketFormatter.cs" />
+    <Compile Include="Model\ModelNetwork\Udp\UdpPacketListener.cs" />
+    <Compile Include="Model\ModelNetwork\Udp\UdpPacketSender.cs" />
+    <Compile Include="Model\ModelNetwork\UserRegister.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

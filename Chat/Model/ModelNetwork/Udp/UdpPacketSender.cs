@@ -14,7 +14,7 @@ namespace Chat
       lock(senderClient = new UdpClient())
       {        
         byte[] bytes = packetFormatter.CreateMessagePacket(content, App.ServiceUsers.LocalUser);
-        senderClient.Send(bytes, bytes.Length, App.ServiceUsers.LocalUser.UserSocket);
+        //senderClient.Send(bytes, bytes.Length, App.ServiceUsers.LocalUser.UserSocket);
         foreach (var user in App.ServiceUsers.ConnectedUsers)
         {
           senderClient.Send(bytes, bytes.Length, user.UserSocket);
@@ -26,10 +26,7 @@ namespace Chat
       lock (senderClient = new UdpClient())
       {
         byte[] bytes = packetFormatter.CreateLocalUserInfoPacket();
-        foreach (var user in App.ServiceUsers.ConnectedUsers)
-        {
-          senderClient.Send(bytes, bytes.Length, user.UserSocket);
-        }
+        senderClient.Send(bytes, bytes.Length, new IPEndPoint(IPAddress.Broadcast, App.ServicePortValue));
       }
     }
   }
