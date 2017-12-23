@@ -7,12 +7,14 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Collections.Generic;
+using System;
 
 namespace Chat
 {
   public class MainWindowViewModel : INotifyPropertyChanged
   {
     private string textBoxPaneChatPaneContent = string.Empty;
+    public List<User> connectedUsersList = App.ServiceUsers.ConnectedUsers;
     private UdpPacketListener packetListener = new UdpPacketListener();
     private UdpPacketSender packetSender = new UdpPacketSender();
     /// <summary>
@@ -37,18 +39,35 @@ namespace Chat
       }
     }
     public string TextBoxEntryFieldContent { get; private set; }
-    public List<User> ConnectedUsersList { get; private set; } = new List<User>() { App.ServiceUsers.ConnectedUsers};
+    public List<User> ConnectedUsersList
+    {
+      get
+      {
+        return connectedUsersList;
+      }
+      private set
+      {
+        connectedUsersList = value;
+        PropertyChanged(this, new PropertyChangedEventArgs(nameof(ConnectedUsersList)));
+      }
+    }
 
     /// <summary>
     /// 
     /// </summary>
     public MainWindowViewModel(Dispatcher mainDispatcher)
     {
+      App.ServiceUsers.NewConnectedUserEvent += UpdateConnectedUsersList;
+
       mainWindowDispatcher = mainDispatcher;
       Thread thread = new Thread(packetListener.UdpListen);
       packetListener.NewUserMessage += UpdateView;
       thread.IsBackground = true;
       thread.Start();
+    }
+    public void UpdateConnectedUsersList(object sender, EventArgs e)
+    {
+
     }
     /// <summary>
     /// 
@@ -66,7 +85,7 @@ namespace Chat
 
     public void SendUdpMessageToAllUsers(string message)
     {
-      UpdateTextBoxChatPane(message, App.ServiceUsers.LocalUser.Login);
+      //UpdateTextBoxChatPane(message, App.ServiceUsers.LocalUser.Login);
       packetSender.SendMessageToAllUsers(message);
     }
   }
