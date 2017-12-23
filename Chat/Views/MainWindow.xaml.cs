@@ -31,6 +31,7 @@ namespace Chat
       viewModel = new MainWindowViewModel(Dispatcher.CurrentDispatcher);
       this.DataContext = viewModel;
       InitializeComponent();
+      connectedUsers.ItemsSource = viewModel.ConnectedUsersList;
     }
     /*
     public delegate void UpdateContent(string message);

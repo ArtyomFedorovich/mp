@@ -25,7 +25,7 @@ namespace Chat
       }
       else
       {
-        return ServiceUsers.ConnectedUsers.Find(x => x.UserSocket == socket);   
+        return ServiceUsers.ConnectedUsers.Find(x => x.UserSocket.Equals(socket));   
       }
     }
     public App()

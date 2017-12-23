@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace Chat
 {
@@ -36,6 +37,7 @@ namespace Chat
       }
     }
     public string TextBoxEntryFieldContent { get; private set; }
+    public List<User> ConnectedUsersList { get; private set; } = new List<User>() { App.ServiceUsers.ConnectedUsers};
 
     /// <summary>
     /// 
@@ -64,6 +66,7 @@ namespace Chat
 
     public void SendUdpMessageToAllUsers(string message)
     {
+      UpdateTextBoxChatPane(message, App.ServiceUsers.LocalUser.Login);
       packetSender.SendMessageToAllUsers(message);
     }
   }
