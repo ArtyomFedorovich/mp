@@ -16,13 +16,12 @@ namespace Chat
       ConnectedUsers = new List<User>();
     }
 
-    public event EventHandler NewConnectedUserEvent;
     public void AddConnectedUser(User user)
     {
-      if (ConnectedUsers.FirstOrDefault(u => user.Login == u.Login) == null)
+      if ((ConnectedUsers.FirstOrDefault(u => user.Login == u.Login) == null)
+        && ConnectedUsers.FirstOrDefault(u => user.Login == App.ServiceUsers.LocalUser.Login) == null)
       {
         ConnectedUsers.Add(user);
-        NewConnectedUserEvent(this, null);
       }
     }
   }

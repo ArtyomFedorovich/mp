@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Net;
-using System.Threading;
+using System.Windows.Threading;
 using System.Windows;
+using System.Threading;
 
 namespace Chat
 {
@@ -28,6 +29,7 @@ namespace Chat
         return ServiceUsers.ConnectedUsers.Find(x => x.UserSocket.Equals(socket));   
       }
     }
+
     public App()
     {
       UserRegister register = new UserRegister();

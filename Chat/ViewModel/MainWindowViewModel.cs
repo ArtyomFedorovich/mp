@@ -14,8 +14,8 @@ namespace Chat
   public class MainWindowViewModel : INotifyPropertyChanged
   {
     private string textBoxPaneChatPaneContent = string.Empty;
-    public List<User> connectedUsersList = App.ServiceUsers.ConnectedUsers;
-    private UdpPacketListener packetListener = new UdpPacketListener();
+    private List<User> connectedUsersList = new List<User>() { App.ServiceUsers.LocalUser };
+  private UdpPacketListener packetListener = new UdpPacketListener();
     private UdpPacketSender packetSender = new UdpPacketSender();
     /// <summary>
     /// 
@@ -57,18 +57,29 @@ namespace Chat
     /// </summary>
     public MainWindowViewModel(Dispatcher mainDispatcher)
     {
-      App.ServiceUsers.NewConnectedUserEvent += UpdateConnectedUsersList;
-
       mainWindowDispatcher = mainDispatcher;
       Thread thread = new Thread(packetListener.UdpListen);
       packetListener.NewUserMessage += UpdateView;
       thread.IsBackground = true;
       thread.Start();
-    }
-    public void UpdateConnectedUsersList(object sender, EventArgs e)
-    {
 
+      // Thread for users list renderer.
+      Thread renderThread = new Thread(UpdateConnectedUserList);
+      renderThread.IsBackground = true;
+      renderThread.Start();
     }
+
+    public void UpdateConnectedUserList()
+    {
+      while (true)
+      {
+        ConnectedUsersList = new List<User>() { App.ServiceUsers.LocalUser };
+        ConnectedUsersList.AddRange(App.ServiceUsers.ConnectedUsers);
+
+        Thread.Sleep(TimeSpan.FromSeconds(5));
+      }
+    }
+
     /// <summary>
     /// 
     /// </summary>
